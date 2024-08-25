@@ -4,16 +4,17 @@ module Functions
 
     export DescrtiptiveStatistics
 
-    function DescriptiveStatistics(x)
+    function DescriptiveStatistics(x, Vector{Float64})
         n = length(x)
         Media = sum(x)/n
-        pm = (maximum(x)+minimum(x))/2
-        mediana = median(x)
-        Moda=mode(x)
-        AT = maximum(x)-minimum(x)
+        Moda = mode(x)
+        Mediana = median(x)
+        Pm = (maximum(x)+minimum(x))/2
+        At = maximum(x)-minimum(x) 
         s² = var(x)
         s = std(x)
-        cv= (s/Media)*100
+        sx  = s/sqrt(n)
+        Cv= (s/(mean(x)))*100
     end
 
 end
