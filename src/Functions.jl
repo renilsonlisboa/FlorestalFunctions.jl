@@ -2,7 +2,7 @@ module Functions
 
     export DescrtiptiveStatistics
 
-    function DescriptiveStatistics(x);/
+    function DescriptiveStatistics(x)
         # Número de dados presentes em "X"
         n= length(x)
 
