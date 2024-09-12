@@ -10,13 +10,14 @@ import QtQuick 6.5
 import QtQuick.Controls 6.5
 import QtQuick.Layouts 6.5
 import QtQuick.Dialogs 6.5
+import org.julialang
 
 ApplicationWindow {
     id: baseAlign
-    width: Constants.width
-    height: Constants.height
-    color: Constants.backgroundColor
-
+    width: 840
+    height: 640
+    visible: true 
+    
     GridLayout {
         id: grid
         anchors.centerIn: parent
@@ -136,7 +137,6 @@ ApplicationWindow {
 
         // Conteúdo da nova janela
         Rectangle {
-            color: black
             width: parent.width
             height: parent.height
 
