@@ -14,16 +14,17 @@ import org.julialang
 
 ApplicationWindow {
     id: baseAlign
-    width: 840
+    width: 480
     height: 640
-    visible: true 
-    
+    title: "Florestal Functions"
+    visible: true
+
     GridLayout {
         id: grid
         anchors.centerIn: parent
         width: 400
         height: 400
-        columns: 2
+        columns: 1
         columnSpacing: 25
         rowSpacing: 25
 
@@ -38,23 +39,24 @@ ApplicationWindow {
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+
+                font.pointSize: 14
+                font.family: "Arial"
             }
 
             Connections {
                 target: selectecDescriptiveStatistics
                 onClicked: {
                     descriptiveStatistics.visible = true
-                    baseAlign.visible = false
                 }
                 onClosing: {
                     descriptiveStatistics.visible = false
-                    baseAlign.visible = true
                 }
             }
         }
         Button {
             id: hipotesisTest
-            text: qsTr("Testes de Hipoteses")
+            text: qsTr("Testes de Hipóteses")
             Layout.fillWidth: true
             Layout.fillHeight: true
             contentItem: Text {
@@ -63,23 +65,23 @@ ApplicationWindow {
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+                font.pointSize: 14
+                font.family: "Arial"
             }
 
             Connections {
                 target: hipotesisTest
                 onClicked: {
-                    descriptiveStatistics.visible = true
-                    baseAlign.visible = false
+                    hipotesisTestWindow.visible = true
                 }
                 onClosing: {
-                    descriptiveStatistics.visible = false
-                    baseAlign.visible = true
+                    hipotesisTestWindow.visible = false
                 }
             }
         }
         Button {
             id: delineamentosExperimentais
-            text: qsTr("Delineamentos")
+            text: qsTr("Delineamentos Experimentais")
             Layout.fillWidth: true
             Layout.fillHeight: true
             contentItem: Text {
@@ -88,17 +90,17 @@ ApplicationWindow {
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+                font.pointSize: 14
+                font.family: "Arial"
             }
 
             Connections {
                 target: delineamentosExperimentais
                 onClicked: {
-                    descriptiveStatistics.visible = true
-                    baseAlign.visible = false
+                    delineamentoWindow.visible = true
                 }
                 onClosing: {
-                    descriptiveStatistics.visible = false
-                    baseAlign.visible = true
+                    delineamentoWindow.visible = false
                 }
             }
         }
@@ -113,17 +115,17 @@ ApplicationWindow {
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+                font.pointSize: 14
+                font.family: "Arial"
             }
 
             Connections {
                 target: regressions
                 onClicked: {
-                    descriptiveStatistics.visible = true
-                    baseAlign.visible = false
+                    regressionsWindow.visible = true
                 }
                 onClosing: {
-                    descriptiveStatistics.visible = false
-                    baseAlign.visible = true
+                    regressionsWindow.visible = false
                 }
             }
         }
@@ -137,6 +139,7 @@ ApplicationWindow {
 
         // Conteúdo da nova janela
         Rectangle {
+            color: black
             width: parent.width
             height: parent.height
 
@@ -144,7 +147,7 @@ ApplicationWindow {
                 id: importDataDescriptive
                 text: qsTr("Importar Dados")
                 anchors.centerIn: parent
-                anchors.verticalCenterOffset: -100
+                anchors.verticalCenterOffset: -185
 
                 Connections {
                     target: importDataDescriptive
@@ -155,7 +158,7 @@ ApplicationWindow {
             }
             Grid {
                 id: gridLayoutDescriptiveCheckBox
-                columns: 6
+                columns: 2
                 anchors.centerIn: parent
                 spacing: 10
 
@@ -196,16 +199,16 @@ ApplicationWindow {
                     text: qsTr("Erro Padrão da Média")
                 }
                 CheckBox {
-                    id: pltDispersão
-                    text: qsTr("Erro Padrão da Média")
+                    id: min
+                    text: qsTr("Valor Minímo")
                 }
                 CheckBox {
-                    id: pltHistogram
-                    text: qsTr("Erro Padrão da Média")
+                    id: max
+                    text: qsTr("Valor Maxímo")
                 }
                 CheckBox {
-                    id: erroPadMedia2
-                    text: qsTr("Erro Padrão da Média")
+                    id: nAmostras
+                    text: qsTr("Nº de Dados")
                 }
             }
 
@@ -213,10 +216,13 @@ ApplicationWindow {
                 id: processDataDescriptive
                 text: qsTr("Processar Dados")
                 anchors.centerIn: parent
-                anchors.verticalCenterOffset: 100
+                anchors.verticalCenterOffset: 185
 
                 Connections {
                     target: processDataDescriptive
+                    onClicked: {
+                        conclusionDialog.open()
+                    }
                 }
             }
         }
@@ -224,11 +230,218 @@ ApplicationWindow {
         FileDialog {
             id: importData
             title: "Selecione o arquivo .CSV com os dados"
-            fileMode: FileDialog.SaveFile
+            fileMode: FileDialog.OpenFile
+            nameFilters: ["CSV Files (*.csv)"]
 
             Connections {
                 target: importData
-                onAccepted: newWindow.title = "Funfo"
+                onAccepted: {
+
+                }
+            }
+        }
+
+        MessageDialog {
+            id: conclusionDialog
+            title: "Dados Processados com Sucesso"
+            text: "Dados processado com Sucesso, o arquivo de resultados foi salvo no caminho selecionado"
+        }
+        MessageDialog {
+            id: errorImportDialog
+            title: "Arquivo Importado com Sucesso"
+            text: "O arquivo selecionado foi importado com sucesso"
+        }
+        MessageDialog {
+            id: sucessImportDialog
+            title: "Falha ao Importar Arquivo"
+            text: ""
+        }
+    }
+
+    Window {
+        id: hipotesisTestWindow
+        width: 640
+        height: 480
+        title: "Teste de Hipoteses"
+        visible: false
+
+        // Conteúdo da nova janela
+        Rectangle {
+            color: black
+            width: parent.width
+            height: parent.height
+
+            Button {
+                id: importDataHipotesis
+                text: qsTr("Importar Dados")
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -185
+
+                Connections {
+                    target: importDataHipotesis
+                    onClicked: {
+                        importData.open()
+                    }
+                }
+            }
+        }
+    }
+
+    Window {
+        id: delineamentoWindow
+        width: 640
+        height: 480
+        title: "Delineamentos Experimentais"
+        visible: false
+
+        // Conteúdo da nova janela
+        Rectangle {
+            color: black
+            width: parent.width
+            height: parent.height
+
+            Button {
+                id: importDataDelineamento
+                text: qsTr("Importar Dados")
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -185
+
+                Connections {
+                    target: importDataDelineamento
+                    onClicked: {
+                        importData.open()
+                    }
+                }
+            }
+        }
+    }
+
+    Window {
+        id: regressionsWindow
+        width: 640
+        height: 480
+        title: "Delineamentos Experimentais"
+        visible: false
+
+        // Conteúdo da nova janela
+        Rectangle {
+            color: black
+            width: parent.width
+            height: parent.height
+
+            Button {
+                id: importDataRegressions
+                text: qsTr("Importar Dados")
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -185
+
+                Connections {
+                    target: importDataRegressions
+                    onClicked: {
+                        importData.open()
+                    }
+                }
+            }
+
+            Button {
+                id: processRegressions
+                text: qsTr("Processar Dados")
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: 185
+
+                Connections {
+                    target: processRegressions
+                    onClicked: {
+                        conclusionDialog.open()
+                    }
+                }
+            }
+
+            ComboBox {
+                id: comboBox
+                anchors.centerIn: parent
+                width: 500
+                height: 30
+                currentIndex: 0
+
+                // Adicionar 10 opções ao ComboBox
+                model: ListModel {
+                    id: model
+                    ListElement {
+                        text: "Y = β0 + β1*d"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*d²"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*(d²h)"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*ln(d)"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*ln(1/d)"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*(1/d²)"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*d + β2*d²"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*d² + β2*(d²h) + β3*h"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*d + β2*d² + β3*(dh) + β4*(d²h)"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*d + β2*d² + β3*(dh²) + β4*(d²h)"
+                    }
+                    ListElement {
+                        text: "Y = β0 + β1*d² + β2*(d²h) + β3*h² + β4*(dh²)"
+                    }
+                    ListElement {
+                        text: "Y = β0 * dβ1"
+                    }
+                    ListElement {
+                        text: "Y = β0 * (1/d)β1"
+                    }
+                    ListElement {
+                        text: "Y = β0 * (d²h)β1"
+                    }
+                    ListElement {
+                        text: "Y = β0 * (dh²)β1"
+                    }
+                    ListElement {
+                        text: "Y = β0 * (d)β1 * (1/d)β2"
+                    }
+                    ListElement {
+                        text: "Y = β0 * (d)β1 * (h)β2"
+                    }
+                }
+
+                contentItem: Text {
+                    text: comboBox.currentText
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 14
+                    font.family: "Arial"
+                }
+
+                delegate: ItemDelegate {
+                    width: comboBox.width
+                    height: comboBox.height
+
+                    contentItem: Text {
+                        text: model.text
+                        anchors.centerIn: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 14
+                        font.family: "Arial"
+                        padding: 10
+                    }
+                }
             }
         }
     }
