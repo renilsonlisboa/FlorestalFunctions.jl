@@ -14,11 +14,12 @@ import org.julialang
 
 ApplicationWindow {
     id: baseAlign
-    width: 480
-    height: 640
-    title: "Florestal Functions"
+    width: 640
+    height: 720
+    color: Constants.backgroundColor
     visible: true
 
+    //title: "Florestal Functions"
     GridLayout {
         id: grid
         anchors.centerIn: parent
@@ -221,7 +222,8 @@ ApplicationWindow {
                 Connections {
                     target: processDataDescriptive
                     onClicked: {
-                        conclusionDialog.open()
+                        var resultados = Julia.descriptiveStatistics(
+                                    Julia.singleFile(importData.currentFile))
                     }
                 }
             }
@@ -232,6 +234,7 @@ ApplicationWindow {
             title: "Selecione o arquivo .CSV com os dados"
             fileMode: FileDialog.OpenFile
             nameFilters: ["CSV Files (*.csv)"]
+            Component.onCompleted: visible = false
 
             Connections {
                 target: importData
@@ -244,7 +247,7 @@ ApplicationWindow {
         MessageDialog {
             id: conclusionDialog
             title: "Dados Processados com Sucesso"
-            text: "Dados processado com Sucesso, o arquivo de resultados foi salvo no caminho selecionado"
+            text: "Seus resultados são bons"
         }
         MessageDialog {
             id: errorImportDialog
@@ -255,6 +258,19 @@ ApplicationWindow {
             id: sucessImportDialog
             title: "Falha ao Importar Arquivo"
             text: ""
+        }
+
+        FileDialog {
+            id: saveFileDialog
+            title: "Selecione o local para salvar o arquivo..."
+            fileMode: FileDialog.SaveFile
+            Connections {
+                target: saveFileDialog
+                onAccepted: {
+                    Julia.saveFile(resultVals, saveFileDialog.selectedFile)
+                    conclusionDialog.open()
+                }
+            }
         }
     }
 

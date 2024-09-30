@@ -2,11 +2,16 @@ module Functions
 
   using Statistics
   using StatsBase
+  using DataFrames
+  using CSV
+  using XLSX
+  using QML
 
-    export DescrtiptiveStatistics
+    export descriptiveStatistics
 
-    function DescriptiveStatistics(x)
-
+    function descriptiveStatistics(x)
+      results = x
+"""///
         results = [
           length(x); 
           sum(x)/length(x); 
@@ -18,9 +23,9 @@ module Functions
           std(x); 
           (var(x); std(x))/sqrt(length(x)); 
           ((var(x); std(x))/(mean(x)))*100
-        ]
+          
+        ]"""
 
-        return results
+        display(results)
     end
-
 end
