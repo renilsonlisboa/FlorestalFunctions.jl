@@ -1,9 +1,9 @@
 module FlorestalFunctions
 
     # Inclui os módulos auxiliares no projeto
-    include(joinpath(@__DIR__, "src/Functions.jl"))
-    include(joinpath(@__DIR__, "src/ImportData.jl")) # Função para importar dados .CSV
-    include(joinpath(@__DIR__, "src/Save.jl"))
+    include(joinpath(@__DIR__, "Functions.jl"))
+    include(joinpath(@__DIR__, "ImportData.jl")) # Função para importar dados .CSV
+    include(joinpath(@__DIR__, "Save.jl"))
 
     # Importa os pacotes utilizados para desenvolvimento e funcionamento do programa
     import CSV
@@ -40,7 +40,7 @@ module FlorestalFunctions
         current_directory = dirname(@__FILE__)
 
         # Carrega o arquivo .qml localizado no diretório atual
-        QML.loadqml(joinpath(current_directory, "src/qml", "main.qml"))
+        QML.loadqml(joinpath(current_directory, "qml", "main.qml"))
 
         # Executa o arquivo .QML localizado e carregado anteriormente
         QML.exec()

@@ -53,5 +53,7 @@ module Functions
         else
           resultado_aux = DataFrame(Ddos = 1)
           resultado = hcat(resultado, resultado_aux)
-      end  
+        end
+      end 
+    end 
   end
