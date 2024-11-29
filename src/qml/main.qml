@@ -238,7 +238,7 @@ ApplicationWindow {
             Connections {
                 target: importData
                 onAccepted: {
-
+                    errorImportDialog.open()
                 }
             }
         }
@@ -246,7 +246,7 @@ ApplicationWindow {
         MessageDialog {
             id: conclusionDialog
             title: "Dados Processados com Sucesso"
-            text: "Seus resultados são bons"
+            text: "Dados processado com sucesso, o arquivo com os resultados no caminho selecionado"
         }
         MessageDialog {
             id: errorImportDialog
