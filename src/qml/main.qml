@@ -222,8 +222,7 @@ ApplicationWindow {
                 Connections {
                     target: processDataDescriptive
                     onClicked: {
-                        var resultados = Julia.descriptiveStatistics(
-                                    Julia.singleFile(importData.currentFile))
+                        conclusionDialog.open()
                     }
                 }
             }
